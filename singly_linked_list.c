@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 struct  node
 {
     int info;
@@ -64,12 +65,38 @@ void display(){
     }
 }
 
+void delete(int pos){
+    struct node *temp;
+    int i;
+    temp=head;
+    if(pos==1){
+        head=head->next;
+        temp->next=NULL;
+    }else{
+        for(i=1;i<pos-1;i++){
+            temp=temp->next;
+        }
+        temp->next=(temp->next)->next;
+    }
+}
+
+void pop(){
+    struct node *temp;
+    temp = head;
+    while(temp->next!=tail){
+        temp=temp->next;
+    }
+    temp->next=NULL;
+    tail = temp;
+}
+
+
 void main(){
     int option, pos, val, ch;
     printf("Create the linked list.........\n");
     create();
     do{
-        printf("Enter 1 to insert into the list.\nEnter 2 to append(i.e. insert at the end) into the list.\nEnter 3 to display the list.\nEnter choice: ");
+        printf("Enter 1 to insert into the list.\nEnter 2 to append(i.e. insert at the end) into the list.\nEnter 3 to delete a data from the list.\nEnter 4 to delete from the end of the list.\nEnter 5 to display the list.\nEnter choice: ");
         scanf("%d", &option);
         switch (option)
         {
@@ -86,6 +113,20 @@ void main(){
             append(val);
             break;
         case 3:
+            printf("\nEnter the position for deletion: ");
+            scanf("%d", &pos);
+            delete(pos);
+            printf("\nElement is deleted.\n");
+            printf("\nThe list after deletion: ");
+            display();
+            break;
+        case 4:
+            pop();
+            printf("\nElement from the end is deleted.\n");
+            printf("The new list after the deletion: ");
+            display();
+            printf("\n");
+        case 5:
             printf("\nThe linked list is: ");
             display();
             printf("\n");
@@ -94,7 +135,7 @@ void main(){
             printf("\nInvalid Option\n");
             break;
         }
-        printf("Continue(1/0)?");
+        printf("\nContinue(1/0)? ");
         scanf("%d", &ch);
     }while(ch==1);
 }
