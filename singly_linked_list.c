@@ -66,28 +66,44 @@ void display(){
 }
 
 void delete(int pos){
-    struct node *temp;
+    struct node *temp, *t;
     int i;
     temp=head;
-    if(pos==1){
-        head=head->next;
-        temp->next=NULL;
+    if(head==NULL){
+        printf("\nEmpty\n");
     }else{
-        for(i=1;i<pos-1;i++){
-            temp=temp->next;
+        if(pos==1){
+            head=head->next;
+            temp->next=NULL;
+            free(temp);
+        }else{
+            for(i=1;i<pos-1;i++){
+                temp=temp->next;
+            }
+            t = temp->next;
+            temp->next=(temp->next)->next;
+            free(t);
         }
-        temp->next=(temp->next)->next;
     }
 }
 
 void pop(){
-    struct node *temp;
-    temp = head;
-    while(temp->next!=tail){
-        temp=temp->next;
+    struct node *temp, *t;
+    if(head == NULL){
+        printf("\nEmpty\n");
+    }else{
+        temp = head;
+        while (temp->next!=tail)
+        {
+            temp = temp->next;
+        }
+        t = temp->next;
+        temp->next = NULL;
+        tail = temp;
+        free(t);       
     }
-    temp->next=NULL;
-    tail = temp;
+    
+    
 }
 
 
@@ -115,17 +131,11 @@ void main(){
         case 3:
             printf("\nEnter the position for deletion: ");
             scanf("%d", &pos);
-            delete(pos);
-            printf("\nElement is deleted.\n");
-            printf("\nThe list after deletion: ");
-            display();
+            delete(pos);            
             break;
         case 4:
             pop();
-            printf("\nElement from the end is deleted.\n");
-            printf("The new list after the deletion: ");
-            display();
-            printf("\n");
+            break;
         case 5:
             printf("\nThe linked list is: ");
             display();
