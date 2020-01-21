@@ -1,15 +1,23 @@
+/*This file contains the functions for the
+the linked list*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
+
 struct  node
 {
     int info;
     struct node *next;
-}*head,*tail,*ptr;
+};
+
+typedef struct node N;
+N *head=NULL, *tail, *ptr;
 
 void create(){
     int choice, val;
     do{
-        ptr = (struct node*)malloc(sizeof(struct node));
+        ptr = (N*)malloc(sizeof(N));
         printf("Enter the data: ");
         scanf("%d",&val);
         ptr->info = val;
@@ -27,29 +35,26 @@ void create(){
 }
 
 void display(){
-    struct node *temp;
+    N *temp;
     temp = head;
     while(temp!=NULL){
-        printf("%d, ",temp->info);
+        printf("%d",temp->info);
+        if(temp->next!=NULL){
+            printf(", ");
+        }
         temp = temp->next;
     }
 }
 
-
-int len(struct node *head){
-    struct node *temp;
-    int c = 0;
-    temp = head;
-    while(temp!=NULL){
-        c++;
-        temp = temp->next;
+void reverse(){
+    N *current, *next, *prev=NULL;
+    current = head;
+    while (current!=NULL){
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
     }
-    return c;
-}
-
-void main(){
-    create();
-    display();
-    printf("\nThe number of elements in the list is %d", len(head));    
-    printf("\n");
+    tail = head;
+    head = prev;
 }
